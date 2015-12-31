@@ -371,3 +371,79 @@ def str2float(s):
 
 
 print(str2float('12.35'))
+
+
+def is_odd(n):
+    return n % 2 == 1
+
+
+print(list(filter(is_odd, [1, 2, 3, 3, 3, 4])))
+
+
+def not_empty(s):
+    return s and s.strip()
+
+
+print(list(filter(not_empty, [' 1', '2', '', ' ', None])))
+
+
+def _odd_iter():  # 奇数惰性序列
+    n = 1
+    while True:
+        n = n + 2
+        yield n
+
+
+def _not_divisible(n):  # 过滤函数
+    return lambda x: x % n > 0
+
+
+def primes():
+    yield 2
+    it = _odd_iter()
+    while True:
+        n = next(it)
+        yield n
+        it = filter(_not_divisible(n), it)
+
+
+for n in primes():
+    if n < 20:
+        print(n)
+    else:
+        break
+
+
+# ! list(123)
+
+
+
+def is_palindrome(n):  # 过滤函数
+    return str(n) == str(n)[::-1]
+
+
+print(list(filter(is_palindrome, range(1, 10))))
+
+print(sorted([1, 2, 3, 4, -6]))
+print(sorted([1, 2, 3, 4, -6], key=abs))
+print(sorted([1, 2, 3, 4, -6], key=abs, reverse=True))
+
+print(sorted(['azz', 'sss', 'As', 'Zdd'], key=str.upper))
+
+L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
+
+
+def by_name(t):
+    return t[0]
+
+
+L2 = sorted(L, key=by_name)
+print(L2)
+
+
+def by_score(t):
+    return t[1]
+
+
+L2 = sorted(L, key=by_score, reverse=True)
+print(L2)
