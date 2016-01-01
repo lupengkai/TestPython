@@ -447,3 +447,136 @@ def by_score(t):
 
 L2 = sorted(L, key=by_score, reverse=True)
 print(L2)
+
+
+def lazy_sum(*args):
+    def sum():
+        s = 0
+        for n in args:
+            s = s + n
+        return s
+
+    return sum
+
+
+f = lazy_sum(1, 2, 3)
+
+print(f())
+
+
+def count():
+    fs = []
+    for i in range(1, 4):
+        def f():
+            return i * i
+
+        fs.append(f)
+    return fs
+
+
+f1, f2, f3 = count()
+
+print(f1())
+print(f2())
+print(f3())
+
+
+def count():
+    def f(j):
+        def g():
+            return j * j
+
+        return g
+
+    fs = []
+    for i in range(1, 4):
+        fs.append(f(i))
+    return fs
+
+
+f1, f2, f3 = count()
+
+print(f1())
+print(f2())
+print(f3())
+
+f = lambda x: x * x
+print(f(5))
+
+
+def build(x, y):
+    return lambda: x + y
+
+
+f = build(1, 2)
+
+print(f())
+
+import functools
+
+
+def log(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kw):
+        print('call %s():' % func.__name__)
+        return func(*args, **kw)
+
+    return wrapper
+
+
+@log
+def now():
+    print('2016-1-1')
+
+
+print(now.__name__)
+
+
+def log(text):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            print('%s %s():' % (text, func.__name__))
+            return func(*args, **kw)
+
+        return wrapper
+
+    return decorator
+
+
+@log('execute')
+def now():
+    print('2016-1-1')
+
+
+print(now.__name__)
+
+
+def log(func):
+    def wrapper(*args, **kw):
+        return func(*args, **kw)
+
+    print('begin call %s():' % func.__name__)
+    return wrapper
+
+
+@log
+def now():
+    print('2016-1-1')
+
+
+now()
+
+print(int('110'))
+print(int('110', base=2))
+
+
+def int2(s):
+    return int(s, base=2)
+
+
+import functools
+
+int2 = functools.partial(int, base=2)
+
+print(int2('110'))
