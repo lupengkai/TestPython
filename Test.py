@@ -363,10 +363,10 @@ print(prod([x for x in range(1, 5)]))
 
 
 def str2float(s):
-    s1=''
+    s1 = ''
     for c in s:
         if c != '.':
-            s1 = s1+c
+            s1 = s1 + c
     return reduce(lambda x, y: 10 * x + y, map(char2num, s1)) / (10 ** (len(s) - s.index('.') - 1))
 
 
@@ -580,3 +580,162 @@ import functools
 int2 = functools.partial(int, base=2)
 
 print(int2('110'))
+
+
+class Student(object):
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+
+    def print_score(self):
+        print('%s: %s' % (self.name, self.score))
+
+
+bart = Student('Bart', 59)
+lisa = Student('Lisa', 99)
+lisa.print_score()
+bart.print_score()
+
+
+class Student(object):
+    pass
+
+
+nike = Student()
+nike.name = 'Nike'
+print(nike.name)
+
+lucy = Student
+
+
+# lucy.name
+
+class Person(object):
+    def __init__(self, name):
+        self.__name = name
+
+    def print_name(self):
+        print('name: %s' % self.__name)
+
+
+peter = Person('peter')
+peter.print_name()
+
+
+# print(peter.__name)
+# print(peter._Student__name)//不同的python解释器会把__name解释成不同变量名
+
+class Animal(object):
+    def run(self):
+        print('Animal is running')
+
+
+class Dog(Animal):
+    def run(self):
+        print('Dog is running')
+
+
+class Cat(Animal):
+    def run(self):
+        print('Cat is running')
+
+
+def see_run(animal):
+    animal.run()
+
+
+class Apple(object):
+    def run(self):
+        print('apple can\'t run')
+
+
+see_run(Dog())
+see_run(Cat())
+see_run(Animal())
+see_run(Apple())
+
+apple = Apple()
+print(isinstance(Cat(), Animal))
+print(isinstance(Animal(), Cat))
+
+print(type(123))
+print(type(Student))
+print(type(apple))
+print(type(None))
+print(type(int))
+print(type(''))
+print(type(str))
+print(type(abs))
+
+import types
+
+
+def fn():
+    pass
+
+
+print(type(fn) == types.FunctionType)
+print(type(abs) == types.BuiltinFunctionType)
+print(type(lambda x: x) == types.LambdaType)
+print(type((x for x in range(1, 10))) == types.GeneratorType)
+
+print(isinstance((1,), tuple))
+print(isinstance((1,), (tuple, list)))
+apple.name = 'apple'
+
+print(dir(apple))
+print(dir(Apple))
+
+print(len('ABc'))
+print('Abc'.__len__())
+
+print(hasattr(apple, 'run'))
+
+f = getattr(apple, 'run', 404)
+print(f())
+
+
+class Car(object):
+    def __init__(self, name, size):
+        self.__name = name
+        self.size = size
+
+
+c = Car('BMW', '5')
+print(hasattr(Car, '__name'))
+print(hasattr(Car, 'size'))
+print(hasattr(c, '__name'))
+print(hasattr(c, 'size'))
+print(dir(Car))
+print(dir(c))
+print(dir(type))
+print(type(type))
+
+
+# def readImage(fp):
+#     if hasattr(fp, 'read'):
+#         return readData(fp)
+#     return None
+
+
+class Teacher(object):
+    name = 'teacher'
+
+
+t = Teacher()
+print(Teacher.name)
+print(t.name)
+Teacher.age = 10
+print(t.age)
+print(Teacher.age)
+t1 = Teacher()
+Teacher.name = 'TT'
+print(t.name)
+t.name = 'tt'
+print(t.name)
+print(t1.name)
+# del Teacher.name
+print(t.name)
+# print(t1.name)
+del t.name
+print(t.name)
