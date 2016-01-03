@@ -730,6 +730,9 @@ print(t.age)
 print(Teacher.age)
 t1 = Teacher()
 Teacher.name = 'TT'
+print(t1.name)
+Teacher.name = 'BB'
+print(t1.name)
 print(t.name)
 t.name = 'tt'
 print(t.name)
@@ -739,3 +742,186 @@ print(t.name)
 # print(t1.name)
 del t.name
 print(t.name)
+
+
+class School(object):
+    pass
+
+
+def set_size(self, size):
+    self.size = size
+
+
+from types import MethodType
+
+s = School
+
+s.set_size = MethodType(set_size, s)
+
+s.set_size(20)
+print(s.size)
+print(dir(s))
+School.set_size = MethodType(set_size, School)
+School.set_size(100)
+print(dir(School))
+
+s1 = School()
+s1.set_size(200)
+
+print(s1.size)  # 类的变量方法，实例没有自己的一份
+print(School.size)
+print(dir(s1))
+
+
+class Student(object):
+    __slots__ = ('name', 'age')
+
+
+Student.name = 'XD'
+Student.age = '83'
+
+Student.size = 300
+
+s1 = Student()
+print(s1.size)
+
+
+# s1.size = 200
+
+# s1.id = '1212'
+
+# s1.name = 'haha'#AttributeError: 'Student' object attribute 'name' is read-only
+
+class Book(object):
+    pass
+
+
+b = Book()
+b.name = 'b'
+Book.name = 'book'
+print(b.name)
+print(Book.name)
+
+
+class Pen(object):
+    pass
+
+
+Pen.name = 'pen'
+p = Pen()
+p.name = 'p'  # p.name独立出来
+
+print(Pen.name)
+print(p.name)
+
+
+class Computer(object):
+    __slots__ = ('name', 'age')
+
+
+c = Computer()
+print(dir(c))
+c.name = 'c'
+print(dir(c))
+print(dir(Computer))  # 'age', 'name']
+c2 = Computer()
+c2.name = 'c2'
+print(c.name, c2.name)  # c c2
+Computer.name = 'computer'  # 使用slot之后，未定义类相关属性之前，实例的属性分离，
+# 定义类的相同属性之后，类，实例的属性全部为类的属性，并且该属性为ｒｅａｄ——ｏｎｌｙ
+print(c2.name)
+print(c.name)
+print(Computer.name)
+
+
+# c.name = 'cc' #AttributeError: 'Computer' object attribute 'name' is read-only
+
+class Computer(object):
+    def __init__(self):
+        self.name = 'c'
+
+
+print(dir(Computer))  # '__subclasshook__', '__weakref__']
+
+
+class Dog(object):
+    name = 'Dog'
+
+
+d1 = Dog()
+d1.name = 'd1'
+
+d2 = Dog()
+d2.name = 'd2'
+
+Dog.name = 'D'
+
+d1.name = 'dd'  # 未用slot 实例与类分开。
+print(d1.name, d2.name, Dog.name)  # dd d2 D
+
+
+# 第一，slots只能限制添加属性，不能限制通过添加方法来添加属性：
+
+class Animal(object):
+    __slots__ = ('name', 'age')
+
+
+class Cat(Animal):
+    __slots__ = ('paw')
+
+
+# __slots__定义的属性仅对当前类实例起作用，对继承的子类是不起作用的：
+# 除非在子类中也定义__slots__，这样，子类实例允许定义的属性就是自身的__slots__加上父类的__slots__。
+c = Cat()
+c.name = 'c'
+c.paw = 'p'
+
+
+class Student(object):
+    @property
+    def score(self):
+        return self._score
+
+    @score.setter
+    def score(self, value):
+        if not isinstance(value, int):
+            raise ValueError('score must be an integer!')
+        if value < 0 or value > 100:
+            raise ValueError('score must between 0~100!')
+        self._score = value
+
+
+s = Student()
+s.score = 60
+print(s.score)
+
+
+# s.score=999 #ValueError: score must between 0~100!
+
+class Screen(object):
+    @property
+    def width(self):
+        return self._width
+
+    @width.setter
+    def width(self, value):
+        self._width = value
+
+    @property
+    def height(self):
+        return self._height
+
+    @height.setter
+    def height(self, value):
+        self._height = value
+
+    @property
+    def resolution(self):
+        return self.width * self.height
+
+
+s = Screen()
+s.width = 1024
+s.height = 768
+print(s.resolution)
+assert s.resolution == 786432, '1024 * 768 = %d ?' % s.resolution
