@@ -103,3 +103,51 @@ print(callable(Student('Michael')))  # True
 print(callable(max))  # True
 print(callable('str'))  # False
 print(callable(None))  # False
+
+from enum import Enum
+
+Month = Enum('M', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
+for name, member in Month.__members__.items():
+    print(name, '==>', member, ',', member.value)
+
+# Jan ==> M.Jan , 1
+# Feb ==> M.Feb , 2
+# Mar ==> M.Mar , 3
+# Apr ==> M.Apr , 4
+# May ==> M.May , 5
+# Jun ==> M.Jun , 6
+# Jul ==> M.Jul , 7
+# Aug ==> M.Aug , 8
+# Sep ==> M.Sep , 9
+# Oct ==> M.Oct , 10
+# Nov ==> M.Nov , 11
+# Dec ==> M.Dec , 12
+
+from enum import Enum, unique
+
+
+@unique
+class Weekday(Enum):
+    Sun = 0
+    Mon = 1
+    Tue = 2
+
+
+day1 = Weekday.Mon
+print(day1)  # <enum 'Weekday'>
+print(Weekday.Mon)  # Weekday.Mon
+print(type(day1))  # Weekday.Mon
+
+print(day1 == Weekday(1))  # True
+print(day1 == Weekday['Mon'])  # True
+
+for name, member in Weekday.__members__.items():
+    print(name, '==>', member)
+    # Sun ==> Weekday.Sun
+    # Mon ==> Weekday.Mon
+    # Tue ==> Weekday.Tue
+
+
+    # w = Weekday() 枚举类不能生成实例
+    # for name, member in w.__members__.items():
+    #     print(name, '==>', member)
