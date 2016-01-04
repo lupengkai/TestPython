@@ -87,3 +87,19 @@ s = Student()
 print(s.name)
 print(s.age())
 # print(s.id) #AttributeError: Student has no attribute  id
+
+class Student(object):
+    def __init__(self, name):
+        self._name = name
+
+    def __call__(self, *args, **kwargs):
+        print('My name is %s' % self._name)
+
+
+s = Student('Michael')  # My name is Michael
+s()
+
+print(callable(Student('Michael')))  # True
+print(callable(max))  # True
+print(callable('str'))  # False
+print(callable(None))  # False
