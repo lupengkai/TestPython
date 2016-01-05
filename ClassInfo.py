@@ -151,3 +151,4 @@ for name, member in Weekday.__members__.items():
     # w = Weekday() 枚举类不能生成实例
     # for name, member in w.__members__.items():
     #     print(name, '==>', member)
+
